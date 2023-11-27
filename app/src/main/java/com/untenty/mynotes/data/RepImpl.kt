@@ -72,33 +72,33 @@ object RepImpl : Rep {
     }
 
     private fun sendNotes() {
-        //CoroutineScope(Dispatchers.IO).launch {
-        val jsonString = Json.encodeToString(getNotes())
-        val flags = Base64.URL_SAFE or Base64.NO_WRAP
-        val encodedString: String = Base64.encodeToString(jsonString.toByteArray(), flags)
-        val url = URL(settings.url)
+        CoroutineScope(Dispatchers.IO).launch {
+            val jsonString = Json.encodeToString(getNotes())
+            val flags = Base64.URL_SAFE or Base64.NO_WRAP
+            val encodedString: String = Base64.encodeToString(jsonString.toByteArray(), flags)
+            val url = URL(settings.url)
 
-        val postData = "notes=$encodedString"
-        val conn = url.openConnection()
+            val postData = "notes=$encodedString"
+            val conn = url.openConnection()
 
-        conn.doOutput = true
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-        conn.setRequestProperty("Content-Length", postData.length.toString())
+            conn.doOutput = true
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+            conn.setRequestProperty("Content-Length", postData.length.toString())
 
-        try {
-            val out: OutputStream = conn.getOutputStream()
-            val dos = DataOutputStream(out)
-            dos.writeBytes(postData)
-            //dos.flush()
-            conn.getInputStream() //why???
-            dos.close()
-            out.close()
-        } catch (e: Exception) {
-            Log.e("notes", e.toString())
-        } finally {
+            try {
+                val out: OutputStream = conn.getOutputStream()
+                val dos = DataOutputStream(out)
+                dos.writeBytes(postData)
+                //dos.flush()
+                conn.getInputStream() //why???
+                dos.close()
+                out.close()
+            } catch (e: Exception) {
+                Log.e("notes", e.toString())
+            } finally {
 
+            }
         }
-        //}
     }
 
     override fun saveAppSettings(ip: String) {
