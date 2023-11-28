@@ -40,7 +40,7 @@ class MainViewModel : ViewModel() {
         settingsUseCase.saveAppSettings(url)
     }
 
-    fun getIp(): String {
+    fun getUrl(): String {
         return RepImpl.settings.url
     }
 

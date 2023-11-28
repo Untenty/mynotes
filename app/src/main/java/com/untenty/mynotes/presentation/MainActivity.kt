@@ -197,7 +197,7 @@ fun NoteCard(viewModel: MainViewModel, navHostController: NavHostController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Settings(viewModel: MainViewModel) {
-    val text = remember { mutableStateOf(viewModel.getIp()) }
+    val text = remember { mutableStateOf(viewModel.getUrl()) }
     Column {
         TextField(
             value = text.value,

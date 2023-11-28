@@ -66,9 +66,9 @@ object RepImpl : Rep {
     }
 
     private fun saveNotes() {
-        val editor = prefs.edit()
-        editor.putString("notes", Json.encodeToString(listNotes)).apply()
         CoroutineScope(Dispatchers.IO).launch {
+            val editor = prefs.edit()
+            editor.putString("notes", Json.encodeToString(listNotes)).apply()
             sendNotes()
         }
     }
