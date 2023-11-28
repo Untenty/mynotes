@@ -68,11 +68,13 @@ object RepImpl : Rep {
     private fun saveNotes() {
         val editor = prefs.edit()
         editor.putString("notes", Json.encodeToString(listNotes)).apply()
-        sendNotes()
+        CoroutineScope(Dispatchers.IO).launch {
+            sendNotes()
+        }
     }
 
-    private fun sendNotes() {
-        CoroutineScope(Dispatchers.IO).launch {
+    private suspend fun sendNotes() {
+        withContext(Dispatchers.IO) {
             val jsonString = Json.encodeToString(getNotes())
             val flags = Base64.URL_SAFE or Base64.NO_WRAP
             val encodedString: String = Base64.encodeToString(jsonString.toByteArray(), flags)
